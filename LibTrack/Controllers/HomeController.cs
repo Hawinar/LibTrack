@@ -20,7 +20,7 @@ public class HomeController(
     public async Task<IActionResult> Index(
         CancellationToken ct = default)
     {
-        int pageSize = 10;
+        int pageSize = 9;
         string cacheKey = $"home:index";
         List<BookListItemViewModel>? books;
         if (_cache.TryGetValue(cacheKey, out books))

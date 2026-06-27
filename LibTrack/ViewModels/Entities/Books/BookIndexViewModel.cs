@@ -10,5 +10,7 @@ namespace LibTrack.ViewModels.Entities.Books
         }
 
         public PaginatedList<BookListItemViewModel> Items { get; set; } = default!;
+        public BookFilter Filter { get; set; } = new();
+
     }
 }

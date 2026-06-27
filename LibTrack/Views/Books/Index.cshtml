@@ -1,0 +1,82 @@
+﻿@model LibTrack.ViewModels.Entities.Books.BookIndexViewModel
+
+@{
+    ViewData["Title"] = "Каталог | LibTrack";
+}
+
+<h1>Каталог</h1>
+
+<form asp-action="Index" asp-controller="Books" method="get">
+    <div>
+        <label asp-for="Filter.Search"></label>
+        <input asp-for="Filter.Search" />
+    </div>
+
+    <div>
+        <label asp-for="Filter.GenreId"></label>
+        <input asp-for="Filter.GenreId" type="number" />
+    </div>
+
+    <div>
+        <label asp-for="Filter.OnlyAvailable"></label>
+        <input asp-for="Filter.OnlyAvailable" />
+    </div>
+
+    <div>
+        <label asp-for="Filter.SortBy"></label>
+        <select asp-for="Filter.SortBy"
+                asp-items="Html.GetEnumSelectList<BookSortBy>()">
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Filter.SortDirection"></label>
+        <select asp-for="Filter.SortDirection"
+                asp-items="Html.GetEnumSelectList<BookSortDirection>()">
+        </select>
+    </div>
+
+    <button type="submit">Применить</button>
+
+    <a asp-action="Index" asp-controller="Books">Сбросить</a>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a asp-controller="Books"
+                       asp-action="Details"
+                       asp-route-id="@item.Id">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
