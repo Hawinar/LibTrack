@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LibTrack.Models.Entities;
+﻿namespace LibTrack.Models.Entities;
 
 public partial class Book
 {
@@ -18,6 +15,10 @@ public partial class Book
     public int GenreId { get; set; }
 
     public string? Image { get; set; }
+
+    public DateTime AddDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
 
     public virtual ICollection<BookUser> BookUsers { get; set; } = new List<BookUser>();
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using LibTrack.Models.Entities;
+﻿using LibTrack.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibTrack.Models.Data;
