@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LibTrack.Models.Entities;
+﻿namespace LibTrack.Models.Entities;
 
 public partial class User
 {
@@ -13,7 +10,7 @@ public partial class User
 
     public string PasswordHash { get; set; } = null!;
 
-    public int? RoleId { get; set; }
+    public int RoleId { get; set; }
 
     public virtual ICollection<BookUser> BookUsers { get; set; } = new List<BookUser>();
 

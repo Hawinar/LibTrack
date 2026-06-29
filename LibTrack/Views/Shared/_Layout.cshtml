@@ -26,6 +26,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Каталог</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Вход</a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <span>@User.Identity.Name</span>
+
+                            <form asp-controller="Auth"
+                                  asp-action="Logout"
+                                  method="post"
+                                  style="display: inline;">
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit">Выйти</button>
+                            </form>
+                        }
                     </ul>
                 </div>
             </div>

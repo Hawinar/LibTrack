@@ -19,9 +19,9 @@ public class BooksController(
 
     [HttpGet("catalog")]
     public async Task<IActionResult> Index(
-    [FromQuery] BookFilter filter,
-    [FromQuery] int page = 1,
-    CancellationToken ct = default)
+        [FromQuery] BookFilter filter,
+        [FromQuery] int page = 1,
+        CancellationToken ct = default)
     {
         const int pageSize = 20;
 
@@ -151,7 +151,9 @@ public class BooksController(
                         Description = p.Description,
                         Image = p.Image,
                         Genre = p.Genre.Name,
-                        Date = p.AddDate
+                        Date = p.AddDate,
+                        IsAvailable = !p.BookUsers.Any(bookUser =>
+                            bookUser.ActualReturnDate == null)
                     }
                     ).FirstOrDefaultAsync(ct);
                 return data;

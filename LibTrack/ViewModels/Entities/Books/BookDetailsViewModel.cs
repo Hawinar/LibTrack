@@ -15,5 +15,7 @@
         public string Genre { get; set; } = null!;
 
         public DateTime Date { get; set; }
+
+        public bool IsAvailable { get; set; }
     }
 }

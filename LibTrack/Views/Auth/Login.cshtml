@@ -1,0 +1,56 @@
+﻿@model LoginRequest
+
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<h1>Вход</h1>
+
+<form asp-controller="Auth"
+      asp-action="Login"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div>
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email"
+               type="email"
+               autocomplete="email"
+               placeholder="you@example.com" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password">Пароль</label>
+        <input asp-for="Password"
+               type="password"
+               autocomplete="current-password"
+               placeholder="Введите пароль" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <label>
+            <input asp-for="RememberMe" type="checkbox" />
+            Запомнить меня
+        </label>
+    </div>
+
+    <button type="submit">Войти</button>
+</form>
+
+<p>
+    Нет аккаунта?
+    <a asp-controller="Auth" asp-action="Register">
+        Зарегистрироваться
+    </a>
+</p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

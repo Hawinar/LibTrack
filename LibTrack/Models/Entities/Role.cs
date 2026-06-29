@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LibTrack.Models.Entities;
+﻿namespace LibTrack.Models.Entities;
 
 public partial class Role
 {

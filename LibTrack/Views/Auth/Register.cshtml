@@ -1,0 +1,67 @@
+﻿@model RegisterRequest
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h1>Регистрация</h1>
+
+<form asp-controller="Auth"
+      asp-action="Register"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div>
+        <label asp-for="FullName">ФИО</label>
+        <input asp-for="FullName"
+               type="text"
+               autocomplete="off"
+               placeholder="Введите ФИО" />
+        <span asp-validation-for="FullName"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email"
+               type="email"
+               autocomplete="email"
+               placeholder="you@example.com" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password">Пароль</label>
+        <input asp-for="Password"
+               type="password"
+               autocomplete="new-password"
+               placeholder="Введите пароль" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <label asp-for="RepeatPassword">Повторите пароль</label>
+        <input asp-for="RepeatPassword"
+               type="password"
+               autocomplete="off"
+               placeholder="Повторите пароль" />
+        <span asp-validation-for="RepeatPassword"></span>
+    </div>
+
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+<p>
+    У вас уже есть аккаунт?
+    <a asp-controller="Auth" asp-action="Login">
+        Войти
+    </a>
+</p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
