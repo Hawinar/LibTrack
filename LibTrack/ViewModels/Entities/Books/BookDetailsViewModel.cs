@@ -1,4 +1,6 @@
-﻿namespace LibTrack.ViewModels.Entities.Books
+﻿using LibTrack.Models.Entities;
+
+namespace LibTrack.ViewModels.Entities.Books
 {
     public class BookDetailsViewModel
     {
@@ -12,9 +14,11 @@
 
         public string? Image { get; set; }
 
-        public string Genre { get; set; } = null!;
+        public Genre Genre { get; set; } = null!;
 
-        public DateTime Date { get; set; }
+        public DateTime AddDate { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
 
         public bool IsAvailable { get; set; }
     }
