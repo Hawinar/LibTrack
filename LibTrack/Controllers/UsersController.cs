@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace LibTrack.Controllers;
 
+[Authorize]
 public class UsersController(
     ILogger<UsersController> logger,
     LibTrackDbContext context,
@@ -15,13 +16,12 @@ public class UsersController(
     private readonly LibTrackDbContext _context = context;
     private readonly IMemoryCache _cache = cache;
 
-    [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> Index(
-        [FromQuery] BookFilter filter,
+        
         [FromQuery] int page = 1,
         CancellationToken ct = default)
     {
-        return await Index(filter, page, ct);
+        return await Index( page, ct);
     }
 }

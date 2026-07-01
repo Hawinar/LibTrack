@@ -149,7 +149,7 @@ public class BooksController(
                         Name = p.Name,
                         Author = p.Author,
                         Description = p.Description,
-                        Image = p.Image,
+                        ImagePath = p.Image,
                         Genre = p.Genre,
                         AddDate = p.AddDate,
                         IsAvailable = !p.BookUsers.Any(bookUser =>

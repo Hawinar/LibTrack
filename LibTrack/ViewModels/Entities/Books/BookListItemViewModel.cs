@@ -8,6 +8,8 @@
 
         public string? ImagePath { get; set; }
 
+        public IFormFile? ImageFile { get; set; }
+
         public string Genre { get; set; } = null!;
 
         public DateTime Date { get; set; }

@@ -14,7 +14,7 @@ public partial class BookUser
 
     public DateTime? ActualReturnDate { get; set; }
 
-    public bool? Extented { get; set; }
+    public bool Extented { get; set; }
 
     public virtual Book Book { get; set; } = null!;
 

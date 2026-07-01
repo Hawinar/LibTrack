@@ -9,15 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibTrack.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class AdminController(
+    IWebHostEnvironment environment,
     ILogger<AdminController> logger,
     LibTrackDbContext context) : Controller
 {
-
+    private readonly IWebHostEnvironment _environment = environment;
     private readonly ILogger<AdminController> _logger = logger;
     private readonly LibTrackDbContext _context = context;
 
-    [Authorize(Roles = "Admin")]
     [HttpGet("admin-catalog")]
     public async Task<IActionResult> Index(
         [FromQuery] BookFilter filter,
@@ -129,7 +130,7 @@ public class AdminController(
                     Name = p.Name,
                     Author = p.Author,
                     Description = p.Description,
-                    Image = p.Image,
+                    ImagePath = p.Image,
                     GenreId = p.GenreId,
                     Genre = p.Genre,
                     AddDate = p.AddDate,
@@ -191,15 +192,31 @@ public class AdminController(
         BookDetailsViewModel book,
         CancellationToken ct = default)
     {
+        if (book.ImageFile is not null && book.ImageFile.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(book.ImageFile.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            await using var stream = System.IO.File.Create(filePath);
+            await book.ImageFile.CopyToAsync(stream, ct);
+
+            book.ImagePath = $"/uploads/{fileName}";
+        }
+
+
         await _context.Books.AddAsync(new Book
         {
             Name = book.Name,
             Author = book.Author,
             Description = book.Description,
-            Image = book.Image,
+            Image = book.ImagePath,
             GenreId = book.GenreId,
             Genre = book.Genre,
-            AddDate = DateTime.UtcNow
+            AddDate = DateTime.Now
         }, ct);
         await _context.SaveChangesAsync(ct);
         _logger.LogWarning(
@@ -232,7 +249,7 @@ public class AdminController(
                     Name = p.Name,
                     Author = p.Author,
                     Description = p.Description,
-                    Image = p.Image,
+                    ImagePath = p.Image,
                     GenreId = p.GenreId,
                     Genre = p.Genre,
                     AddDate = p.AddDate,
@@ -255,18 +272,33 @@ public class AdminController(
         return View(book);
     }
 
-    [HttpPost()]
+    [HttpPost("admin-catalog/{id}/edit")]
     public async Task<IActionResult> Edit(
         BookDetailsViewModel book,
         CancellationToken ct = default)
     {
+        if (book.ImageFile is not null && book.ImageFile.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(book.ImageFile.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            await using var stream = System.IO.File.Create(filePath);
+            await book.ImageFile.CopyToAsync(stream, ct);
+
+            book.ImagePath = $"/uploads/{fileName}";
+        }
+
         _context.Books.Update(new Book
         {
             Id = book.Id,
             Name = book.Name,
             Author = book.Author,
             Description = book.Description,
-            Image = book.Image,
+            Image = book.ImagePath,
             GenreId = book.GenreId,
             Genre = _context.Genres.Where(x => x.Id == book.GenreId).First(),
             AddDate = book.AddDate,

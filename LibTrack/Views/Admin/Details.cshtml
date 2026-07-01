@@ -32,10 +32,10 @@
         </dd>
     </dl>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.DisplayNameFor(model => model.ImagePath)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
+            <img src="@Model.ImagePath" alt="@Model.Name" width="200" />
         </dd>
     </dl>
         <dt class = "col-sm-2">

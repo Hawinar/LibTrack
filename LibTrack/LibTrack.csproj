@@ -18,7 +18,9 @@
 
   <ItemGroup>
     <Folder Include="Models\Entities\" />
+    <Folder Include="Views\BookUsersDetailsViewModel\" />
     <Folder Include="Views\Users\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,122 @@
+@model LibTrack.ViewModels.Entities.Books.BookUsersIndexViewModel
+
+@{
+    ViewData["Title"] = "Задолженности | LibTrack";
+}
+
+<h1>Панель администратора (Задолженности)</h1>
+
+<a asp-action="Create" asp-controller="BookUsers">Создать</a>
+
+
+<form asp-action="Index" asp-controller="BookUsers" method="get">
+    <div>
+        <label asp-for="Filter.Search"></label>
+        <input asp-for="Filter.Search" />
+    </div>
+
+    <div>
+        <label asp-for="Filter.OnlyActive"></label>
+        <input asp-for="Filter.OnlyActive" />
+    </div>
+
+    <div>
+        <label asp-for="Filter.SortBy"></label>
+        <select asp-for="Filter.SortBy"
+                asp-items="Html.GetEnumSelectList<BookUsersSortBy>()">
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Filter.SortDirection"></label>
+        <select asp-for="Filter.SortDirection"
+                asp-items="Html.GetEnumSelectList<BookUsersSortDirection>()">
+        </select>
+    </div>
+
+    <button type="submit">Применить</button>
+
+    <a asp-action="Index" asp-controller="Admin">Сбросить</a>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].UserEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].IssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].ActualReturnDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            @if (item.EstimatedReturnDate > DateTime.Now)
+            {
+                // Т.к. сдача книги просрочена, эту запись надо выделить
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserEmail)
+                    </td>
+                    <td>
+                        <a asp-controller="Books"
+                           asp-action="Details"
+                           asp-route-id="@item.BookId">
+                            @item.BookName
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IssueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualReturnDate)
+                    </td>
+                    <td>
+                        <a asp-controller="BookUsers"
+                        asp-action="Details"
+                        asp-route-id="@item.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserEmail)
+                    </td>
+                    <td>
+                        <a asp-controller="Books"
+                           asp-action="Details"
+                           asp-route-id="@item.BookId">
+                            @item.BookName
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IssueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualReturnDate)
+                    </td>
+                    <td>
+                        <a asp-controller="BookUsers"
+                           asp-action="Details"
+                           asp-route-id="@item.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
