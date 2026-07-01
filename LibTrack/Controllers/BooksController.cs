@@ -150,8 +150,8 @@ public class BooksController(
                         Author = p.Author,
                         Description = p.Description,
                         Image = p.Image,
-                        Genre = p.Genre.Name,
-                        Date = p.AddDate,
+                        Genre = p.Genre,
+                        AddDate = p.AddDate,
                         IsAvailable = !p.BookUsers.Any(bookUser =>
                             bookUser.ActualReturnDate == null)
                     }

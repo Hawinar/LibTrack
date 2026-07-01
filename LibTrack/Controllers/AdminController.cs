@@ -4,6 +4,7 @@ using LibTrack.Models.Entities;
 using LibTrack.ViewModels.Entities.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibTrack.Controllers;
@@ -12,6 +13,7 @@ public class AdminController(
     ILogger<AdminController> logger,
     LibTrackDbContext context) : Controller
 {
+
     private readonly ILogger<AdminController> _logger = logger;
     private readonly LibTrackDbContext _context = context;
 
@@ -128,6 +130,7 @@ public class AdminController(
                     Author = p.Author,
                     Description = p.Description,
                     Image = p.Image,
+                    GenreId = p.GenreId,
                     Genre = p.Genre,
                     AddDate = p.AddDate,
                     UpdateDate = p.UpdateDate,
@@ -149,34 +152,75 @@ public class AdminController(
         return View(book);
     }
 
-    [HttpPost()]
     public async Task<IActionResult> Delete(
         int id,
         CancellationToken ct = default)
     {
-        return View();
+        try
+        {
+            await _context.Books.Where(x => x.Id == id).ExecuteDeleteAsync(ct);
+            await _context.SaveChangesAsync(ct);
+            _logger.LogInformation(
+                "[Admin Panel] Книга удалена (Id={id}).",
+                id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[Admin Panel] Отказ удаления книги. Убедитесь, что записи в BookUser отсутствуют. (BookId={id})", id);
+            return StatusCode(500, "Произошла ошибка при удалении книги.");
+        }
+        return RedirectToAction("Index");
     }
 
-    [HttpGet()]
+    [HttpGet("admin-catalog/create")]
     public async Task<IActionResult> Create(
         CancellationToken ct = default)
     {
-        return View();
+        ViewBag.Genres = await _context.Genres
+            .Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.Name
+            })
+            .ToListAsync(ct);
+        return View(new BookDetailsViewModel());
     }
 
     [HttpPost()]
     public async Task<IActionResult> Create(
-        int id,
+        BookDetailsViewModel book,
         CancellationToken ct = default)
     {
-        return View();
+        await _context.Books.AddAsync(new Book
+        {
+            Name = book.Name,
+            Author = book.Author,
+            Description = book.Description,
+            Image = book.Image,
+            GenreId = book.GenreId,
+            Genre = book.Genre,
+            AddDate = DateTime.UtcNow
+        }, ct);
+        await _context.SaveChangesAsync(ct);
+        _logger.LogWarning(
+                "[Admin Panel] Книга добавлена (Id={id}).",
+                book.Id);
+        return RedirectToAction("Index");
     }
 
-    [HttpGet()]
+    [HttpGet("admin-catalog/{id}/edit")]
     public async Task<IActionResult> Edit(
         int id,
         CancellationToken ct = default)
     {
+        ViewBag.Genres = await _context.Genres
+            .Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.Name
+            })
+            .ToListAsync(ct);
+
         BookDetailsViewModel? book;
         book = await (
                 from p in _context
@@ -189,7 +233,10 @@ public class AdminController(
                     Author = p.Author,
                     Description = p.Description,
                     Image = p.Image,
+                    GenreId = p.GenreId,
                     Genre = p.Genre,
+                    AddDate = p.AddDate,
+                    UpdateDate = p.UpdateDate,
                     IsAvailable = !p.BookUsers.Any(bookUser =>
                         bookUser.ActualReturnDate == null)
                 }
@@ -220,12 +267,15 @@ public class AdminController(
             Author = book.Author,
             Description = book.Description,
             Image = book.Image,
-            Genre = book.Genre,
-            UpdateDate = DateTime.UtcNow
+            GenreId = book.GenreId,
+            Genre = _context.Genres.Where(x => x.Id == book.GenreId).First(),
+            AddDate = book.AddDate,
+            UpdateDate = DateTime.Now
         });
         await _context.SaveChangesAsync(ct);
-        return View();
+        _logger.LogWarning(
+                "[Admin Panel] Книга изменена (Id={id}).",
+                book.Id);
+        return RedirectToAction("Index");
     }
-
-
 }
