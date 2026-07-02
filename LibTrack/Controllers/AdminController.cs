@@ -273,6 +273,16 @@ public class AdminController(
         return View(book);
     }
 
+
+    [HttpPost()]
+    public async Task<IActionResult> PutImage(
+        BookDetailsViewModel book,
+        CancellationToken ct = default)
+    {
+        
+        return RedirectToAction("Edit", new { id = book.Id });
+    }
+
     [HttpPost("admin-catalog/{id}/edit")]
     public async Task<IActionResult> Edit(
         BookDetailsViewModel book,

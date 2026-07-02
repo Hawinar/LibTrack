@@ -19,6 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Items[0].Date)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items[0].ImagePath)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,7 +38,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                
+                <td>
+                    <img src="~/uploads/Placeholder.png" alt="@item.Name" width="200" />
+                </td>
                 <td>
                     <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 </td>

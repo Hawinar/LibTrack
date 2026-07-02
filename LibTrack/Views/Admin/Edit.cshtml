@@ -51,18 +51,12 @@
                 <input asp-for="IsAvailable" class="form-check-input" />
                 <span asp-validation-for="IsAvailable" class="text-danger"></span>
             </div>
+            <input asp-for="ImageFile" type="file" class="form-control" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        <form asp-action="Edit"
-              method="post"
-              enctype="multipart/form-data">
 
-            <input asp-for="ImageFile" type="file" class="form-control" />
-
-            <button type="submit">Сохранить</button>
-        </form>
     </div>
 </div>
 

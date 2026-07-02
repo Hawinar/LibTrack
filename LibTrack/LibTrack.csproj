@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Entities\" />
-    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>
