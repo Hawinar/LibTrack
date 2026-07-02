@@ -1,66 +1,117 @@
-﻿@model RegisterRequest
+﻿```cshtml id="q2mzrk"
+@model RegisterRequest
 
 @{
     ViewData["Title"] = "Регистрация";
 }
 
-<h1>Регистрация</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <div class="mb-4 text-center">
+                <h1 class="mb-2">Регистрация</h1>
 
-<form asp-controller="Auth"
-      asp-action="Register"
-      method="post">
+                <p class="text-muted mb-0">
+                    Создайте аккаунт для работы с библиотекой
+                </p>
+            </div>
 
-    @Html.AntiForgeryToken()
+            <form asp-controller="Auth"
+                  asp-action="Register"
+                  method="post">
 
-    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                @Html.AntiForgeryToken()
 
-    <div asp-validation-summary="ModelOnly"></div>
+                <input type="hidden"
+                       name="returnUrl"
+                       value="@ViewBag.ReturnUrl" />
 
-    <div>
-        <label asp-for="FullName">ФИО</label>
-        <input asp-for="FullName"
-               type="text"
-               autocomplete="off"
-               placeholder="Введите ФИО" />
-        <span asp-validation-for="FullName"></span>
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="FullName" class="form-label">
+                        ФИО
+                    </label>
+
+                    <input asp-for="FullName"
+                           type="text"
+                           autocomplete="off"
+                           placeholder="Введите ФИО"
+                           class="form-control" />
+
+                    <span asp-validation-for="FullName"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Email" class="form-label">
+                        Email
+                    </label>
+
+                    <input asp-for="Email"
+                           type="email"
+                           autocomplete="email"
+                           placeholder="you@example.com"
+                           class="form-control" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">
+                        Пароль
+                    </label>
+
+                    <input asp-for="Password"
+                           type="password"
+                           autocomplete="new-password"
+                           placeholder="Введите пароль"
+                           class="form-control" />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="RepeatPassword" class="form-label">
+                        Повторите пароль
+                    </label>
+
+                    <input asp-for="RepeatPassword"
+                           type="password"
+                           autocomplete="off"
+                           placeholder="Повторите пароль"
+                           class="form-control" />
+
+                    <span asp-validation-for="RepeatPassword"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <button type="submit" class="btn w-100">
+                    Зарегистрироваться
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <span class="text-muted">
+                    Уже есть аккаунт?
+                </span>
+
+                <a asp-controller="Auth"
+                   asp-action="Login">
+                    Войти
+                </a>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <label asp-for="Email">Email</label>
-        <input asp-for="Email"
-               type="email"
-               autocomplete="email"
-               placeholder="you@example.com" />
-        <span asp-validation-for="Email"></span>
-    </div>
-
-    <div>
-        <label asp-for="Password">Пароль</label>
-        <input asp-for="Password"
-               type="password"
-               autocomplete="new-password"
-               placeholder="Введите пароль" />
-        <span asp-validation-for="Password"></span>
-    </div>
-
-    <div>
-        <label asp-for="RepeatPassword">Повторите пароль</label>
-        <input asp-for="RepeatPassword"
-               type="password"
-               autocomplete="off"
-               placeholder="Повторите пароль" />
-        <span asp-validation-for="RepeatPassword"></span>
-    </div>
-
-    <button type="submit">Зарегистрироваться</button>
-</form>
-
-<p>
-    У вас уже есть аккаунт?
-    <a asp-controller="Auth" asp-action="Login">
-        Войти
-    </a>
-</p>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

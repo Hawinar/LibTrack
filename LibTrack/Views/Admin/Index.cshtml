@@ -1,83 +1,120 @@
-﻿@model LibTrack.ViewModels.Entities.Books.BookIndexViewModel
+﻿```cshtml id="m3q8xt"
+@model LibTrack.ViewModels.Entities.Books.BookIndexViewModel
 
 @{
     ViewData["Title"] = "Панель администратора | LibTrack";
 }
 
-<h1>Панель администратора</h1>
-
-<a asp-action="Create" asp-controller="Admin">Создать</a>
-
-
-<form asp-action="Index" asp-controller="Books" method="get">
+<div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <label asp-for="Filter.Search"></label>
-        <input asp-for="Filter.Search" />
+        <h1 class="mb-1">Панель администратора</h1>
+        <p class="text-muted mb-0">Управление каталогом библиотеки</p>
     </div>
 
-    <div>
-        <label asp-for="Filter.GenreId"></label>
-        <input asp-for="Filter.GenreId" type="number" />
-    </div>
+    <a asp-action="Create"
+       asp-controller="Admin"
+       class="btn">
+        Добавить книгу
+    </a>
+</div>
 
-    <div>
-        <label asp-for="Filter.OnlyAvailable"></label>
-        <input asp-for="Filter.OnlyAvailable" />
-    </div>
+<div class="card p-4 mb-4">
+    <form asp-action="Index" asp-controller="Books" method="get">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <label asp-for="Filter.Search" class="form-label"></label>
+                <input asp-for="Filter.Search" class="form-control" />
+            </div>
 
-    <div>
-        <label asp-for="Filter.SortBy"></label>
-        <select asp-for="Filter.SortBy"
-                asp-items="Html.GetEnumSelectList<BookSortBy>()">
-        </select>
-    </div>
+            <div class="col-md-2">
+                <label asp-for="Filter.GenreId" class="form-label"></label>
+                <input asp-for="Filter.GenreId" type="number" class="form-control" />
+            </div>
 
-    <div>
-        <label asp-for="Filter.SortDirection"></label>
-        <select asp-for="Filter.SortDirection"
-                asp-items="Html.GetEnumSelectList<BookSortDirection>()">
-        </select>
-    </div>
+            <div class="col-md-3">
+                <label asp-for="Filter.SortBy" class="form-label"></label>
 
-    <button type="submit">Применить</button>
+                <select asp-for="Filter.SortBy"
+                        asp-items="Html.GetEnumSelectList<BookSortBy>()"
+                        class="form-select">
+                </select>
+            </div>
 
-    <a asp-action="Index" asp-controller="Admin">Сбросить</a>
-</form>
+            <div class="col-md-3">
+                <label asp-for="Filter.SortDirection" class="form-label"></label>
+
+                <select asp-for="Filter.SortDirection"
+                        asp-items="Html.GetEnumSelectList<BookSortDirection>()"
+                        class="form-select">
+                </select>
+            </div>
+
+            <div class="col-md-3 d-flex align-items-center">
+                <div class="form-check mt-4">
+                    <input asp-for="Filter.OnlyAvailable" class="form-check-input" />
+
+                    <label asp-for="Filter.OnlyAvailable"
+                           class="form-check-label">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn">
+                Применить
+            </button>
+
+            <a asp-action="Index"
+               asp-controller="Admin"
+               class="btn">
+                Сбросить
+            </a>
+        </div>
+    </form>
+</div>
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].Date)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].Genre)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].Date)</th>
+            <th>Изображение</th>
             <th></th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model.Items)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Genre)</td>
+                <td>@item.Date.ToString("dd.MM.yyyy")</td>
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <img src="~/uploads/Placeholder.png"
+                         alt="@item.Name"
+                         class="book-image" />
                 </td>
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    <a asp-controller="Admin"
-                       asp-action="Details"
-                       asp-route-id="@item.Id">
-                        Details
-                    </a>
+                    <div class="d-flex gap-2">
+                        <a asp-controller="Admin"
+                           asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="btn">
+                            Подробнее
+                        </a>
+
+                        <a asp-controller="Admin"
+                           asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn">
+                            Изменить
+                        </a>
+                    </div>
                 </td>
             </tr>
         }
@@ -89,13 +126,16 @@
     var nextDisabled = !Model.Items.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.Items.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.Items.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<div class="d-flex gap-2 mt-4">
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Items.PageIndex - 1)"
+       class="btn @prevDisabled">
+        Назад
+    </a>
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Items.PageIndex + 1)"
+       class="btn @nextDisabled">
+        Вперёд
+    </a>
+</div>

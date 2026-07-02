@@ -1,69 +1,88 @@
+```cshtml id="u6wrkp"
 @model LibTrack.ViewModels.Entities.BookUsers.BookUsersDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Информация о выдаче";
 }
 
-<h1>Details</h1>
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Информация о выдаче</h1>
 
-<div>
-    <h4>BookUsersDetailsViewModel</h4>
-    <hr />
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssueDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssueDate)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstimatedReturnDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstimatedReturnDate)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ActualReturnDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ActualReturnDate)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Extented)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Extented)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Book.Name)
-        </dt>
-        <dd class = "col-sm-10">
-        <a asp-controller="Books"
-           asp-action="Details"
-           asp-route-id="@Model.BookId">
-            @Model.Book.Name
+            <p class="text-muted mb-0">
+                Данные о книге и пользователе
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">Пользователь</h5>
+                <p class="mb-0">@Model.User.FullName</p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">ID пользователя</h5>
+                <p class="mb-0">@Model.UserId</p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">Дата выдачи</h5>
+                <p class="mb-0">@Model.IssueDate</p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">
+                    Планируемая дата возврата
+                </h5>
+
+                <p class="mb-0">
+                    @Model.EstimatedReturnDate
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">
+                    Фактическая дата возврата
+                </h5>
+
+                <p class="mb-0">
+                    @Model.ActualReturnDate
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">Продление</h5>
+                <p class="mb-0">@(Model.Extented ? "Да" : "Нет")</p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-muted mb-2">Книга</h5>
+
+                <a asp-controller="Books"
+                   asp-action="Details"
+                   asp-route-id="@Model.BookId">
+
+                    @Model.Book.Name
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <a asp-action="Edit"
+           asp-route-id="@Model?.Id"
+           class="btn">
+            Редактировать
         </a>
-</dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.FullName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+        <a asp-action="Index" class="btn">
+            Назад
+        </a>
+    </div>
 </div>

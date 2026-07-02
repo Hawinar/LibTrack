@@ -1,72 +1,71 @@
+```cshtml id="v4nkzt"
 @model LibTrack.ViewModels.Entities.BookUsers.BookUsersDetailsViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создание выдачи";
 }
 
-<h1>Create</h1>
+<div class="card p-4">
+    <h1 class="mb-4">Создание выдачи</h1>
 
-<h4>BookUsersDetailsViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger mb-3">
+        </div>
 
-            <div class="form-group">
-                <label asp-for="BookId" class="control-label"></label>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label asp-for="BookId" class="form-label"></label>
                 <input asp-for="BookId" class="form-control" />
-                <span asp-validation-for="BookId" class="text-danger"></span>
+                <span asp-validation-for="BookId"
+                      class="text-danger">
+                </span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
+            <div class="col-md-6">
+                <label asp-for="UserId" class="form-label"></label>
                 <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <span asp-validation-for="UserId"
+                      class="text-danger">
+                </span>
             </div>
 
-            <div class="form-group" hidden="hidden">
-                <label asp-for="IssueDate" class="control-label"></label>
-                <input asp-for="IssueDate" class="form-control" />
-                <span asp-validation-for="IssueDate" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="IssueDate" />
+            <input type="hidden" asp-for="EstimatedReturnDate" />
+            <input type="hidden" asp-for="ActualReturnDate" />
+            <input type="hidden" asp-for="Extented" />
 
-            <div class="form-group" hidden="hidden">
-                <label asp-for="EstimatedReturnDate" class="control-label"></label>
-                <input asp-for="EstimatedReturnDate" class="form-control" />
-                <span asp-validation-for="EstimatedReturnDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group" hidden="hidden">
-                <label asp-for="ActualReturnDate" class="control-label"></label>
-                <input asp-for="ActualReturnDate" class="form-control" />
-                <span asp-validation-for="ActualReturnDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group" hidden="hidden">
-                <label asp-for="Extented" class="control-label"></label>
-                <input asp-for="Extented" class="form-check-input" />
-                <span asp-validation-for="Extented" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Book" class="control-label"></label>
+            <div class="col-md-6" hidden="hidden">
+                <label asp-for="Book" class="form-label"></label>
                 <input asp-for="Book" class="form-control" />
-                <span asp-validation-for="Book" class="text-danger"></span>
+                <span asp-validation-for="Book"
+                      class="text-danger">
+                </span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="User" class="control-label"></label>
+            <div class="col-md-6" hidden="hidden">
+                <label asp-for="User" class="form-label"></label>
                 <input asp-for="User" class="form-control" />
-                <span asp-validation-for="User" class="text-danger"></span>
+                <span asp-validation-for="User"
+                      class="text-danger">
+                </span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <input type="submit"
+                   value="Создать"
+                   class="btn" />
+
+            <a asp-action="Index" class="btn">
+                Назад
+            </a>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

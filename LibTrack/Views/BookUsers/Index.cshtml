@@ -1,122 +1,129 @@
+```cshtml id="t4ynxm"
 @model LibTrack.ViewModels.Entities.Books.BookUsersIndexViewModel
 
 @{
     ViewData["Title"] = "Задолженности | LibTrack";
 }
 
-<h1>Панель администратора (Задолженности)</h1>
+<h1 class="mb-4">
+    Панель администратора — Задолженности
+</h1>
 
-<a asp-action="Create" asp-controller="BookUsers">Создать</a>
+<div class="card p-4 mb-4">
+    <form asp-action="Index"
+          asp-controller="BookUsers"
+          method="get">
 
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="Filter.Search"
+                       class="form-label">
+                </label>
 
-<form asp-action="Index" asp-controller="BookUsers" method="get">
-    <div>
-        <label asp-for="Filter.Search"></label>
-        <input asp-for="Filter.Search" />
-    </div>
+                <input asp-for="Filter.Search"
+                       class="form-control" />
+            </div>
 
-    <div>
-        <label asp-for="Filter.OnlyActive"></label>
-        <input asp-for="Filter.OnlyActive" />
-    </div>
+            <div class="col-md-2">
+                <label asp-for="Filter.OnlyActive"
+                       class="form-label">
+                </label>
 
-    <div>
-        <label asp-for="Filter.SortBy"></label>
-        <select asp-for="Filter.SortBy"
-                asp-items="Html.GetEnumSelectList<BookUsersSortBy>()">
-        </select>
-    </div>
+                <div class="mt-2">
+                    <input asp-for="Filter.OnlyActive"
+                           class="form-check-input" />
+                </div>
+            </div>
 
-    <div>
-        <label asp-for="Filter.SortDirection"></label>
-        <select asp-for="Filter.SortDirection"
-                asp-items="Html.GetEnumSelectList<BookUsersSortDirection>()">
-        </select>
-    </div>
+            <div class="col-md-3">
+                <label asp-for="Filter.SortBy"
+                       class="form-label">
+                </label>
 
-    <button type="submit">Применить</button>
+                <select asp-for="Filter.SortBy"
+                        asp-items="Html.GetEnumSelectList<BookUsersSortBy>()"
+                        class="form-select">
+                </select>
+            </div>
 
-    <a asp-action="Index" asp-controller="Admin">Сбросить</a>
-</form>
+            <div class="col-md-3">
+                <label asp-for="Filter.SortDirection"
+                       class="form-label">
+                </label>
+
+                <select asp-for="Filter.SortDirection"
+                        asp-items="Html.GetEnumSelectList<BookUsersSortDirection>()"
+                        class="form-select">
+                </select>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn">
+                Применить
+            </button>
+
+            <a asp-action="Index"
+               asp-controller="Admin"
+               class="btn">
+                Сбросить
+            </a>
+
+            <a asp-action="Create"
+               asp-controller="BookUsers"
+               class="btn">
+                Создать
+            </a>
+        </div>
+    </form>
+</div>
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].UserEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].BookName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].IssueDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].ActualReturnDate)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].UserEmail)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].BookName)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].IssueDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Items[0].ActualReturnDate)</th>
             <th></th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model.Items)
         {
-            @if (item.EstimatedReturnDate > DateTime.Now)
-            {
-                // Т.к. сдача книги просрочена, эту запись надо выделить
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td>
-                        <a asp-controller="Books"
-                           asp-action="Details"
-                           asp-route-id="@item.BookId">
-                            @item.BookName
-                        </a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IssueDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ActualReturnDate)
-                    </td>
-                    <td>
-                        <a asp-controller="BookUsers"
-                        asp-action="Details"
-                        asp-route-id="@item.Id">
-                            Details
-                        </a>
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td>
-                        <a asp-controller="Books"
-                           asp-action="Details"
-                           asp-route-id="@item.BookId">
-                            @item.BookName
-                        </a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IssueDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ActualReturnDate)
-                    </td>
-                    <td>
-                        <a asp-controller="BookUsers"
-                           asp-action="Details"
-                           asp-route-id="@item.Id">
-                            Details
-                        </a>
-                    </td>
-                </tr>
-            }
+            var isOverdue = item.EstimatedReturnDate > DateTime.Now;
+
+            <tr class="@(isOverdue ? "table-danger" : "")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserEmail)
+                </td>
+
+                <td>
+                    <a asp-controller="Books"
+                       asp-action="Details"
+                       asp-route-id="@item.BookId">
+                        @item.BookName
+                    </a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualReturnDate)
+                </td>
+
+                <td>
+                    <a asp-controller="BookUsers"
+                       asp-action="Details"
+                       asp-route-id="@item.Id"
+                       class="btn">
+                        Подробнее
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -126,13 +133,16 @@
     var nextDisabled = !Model.Items.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.Items.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.Items.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<div class="d-flex gap-2 mt-4">
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Items.PageIndex - 1)"
+       class="btn @prevDisabled">
+        Назад
+    </a>
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Items.PageIndex + 1)"
+       class="btn @nextDisabled">
+        Вперёд
+    </a>
+</div>
