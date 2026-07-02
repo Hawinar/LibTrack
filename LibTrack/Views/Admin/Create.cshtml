@@ -34,6 +34,12 @@
             </div>
 
             <div class="col-md-6">
+                <label asp-for="PublicationYear" class="form-label"></label>
+                <input asp-for="PublicationYear" class="form-control" />
+                <span asp-validation-for="PublicationYear" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
                 <label asp-for="Genre" class="form-label"></label>
                 <select asp-for="GenreId" asp-items="ViewBag.Genres" class="form-select"></select>
                 <span asp-validation-for="Genre" class="text-danger"></span>

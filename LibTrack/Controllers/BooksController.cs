@@ -151,6 +151,7 @@ public class BooksController(
                         Description = p.Description,
                         ImagePath = p.Image,
                         Genre = p.Genre,
+                        PublicationYear = p.PublicationYear,
                         AddDate = p.AddDate,
                         IsAvailable = !p.BookUsers.Any(bookUser =>
                             bookUser.ActualReturnDate == null)

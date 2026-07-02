@@ -135,6 +135,7 @@ public class AdminController(
                     Genre = p.Genre,
                     AddDate = p.AddDate,
                     UpdateDate = p.UpdateDate,
+                    PublicationYear = p.PublicationYear,
                     IsAvailable = !p.BookUsers.Any(bookUser =>
                         bookUser.ActualReturnDate == null)
                 }
@@ -216,6 +217,7 @@ public class AdminController(
             Image = book.ImagePath,
             GenreId = book.GenreId,
             Genre = book.Genre,
+            PublicationYear = book.PublicationYear,
             AddDate = DateTime.Now
         }, ct);
         await _context.SaveChangesAsync(ct);
@@ -255,6 +257,7 @@ public class AdminController(
                     Genre = p.Genre,
                     AddDate = p.AddDate,
                     UpdateDate = p.UpdateDate,
+                    PublicationYear = p.PublicationYear,
                     IsAvailable = !p.BookUsers.Any(bookUser =>
                         bookUser.ActualReturnDate == null)
                 }
@@ -311,6 +314,7 @@ public class AdminController(
             Description = book.Description,
             Image = book.ImagePath,
             GenreId = book.GenreId,
+            PublicationYear = book.PublicationYear,
             Genre = _context.Genres.Where(x => x.Id == book.GenreId).First(),
             AddDate = book.AddDate,
             UpdateDate = DateTime.Now
