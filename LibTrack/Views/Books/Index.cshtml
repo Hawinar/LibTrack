@@ -80,3 +80,19 @@
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Items.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Items.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.Items.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.Items.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

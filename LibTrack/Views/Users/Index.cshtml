@@ -1,12 +1,10 @@
 @model LibTrack.ViewModels.Entities.Books.BookUsersIndexViewModel
 
 @{
-    ViewData["Title"] = "Задолженности | LibTrack";
+    ViewData["Title"] = "История | LibTrack";
 }
 
-<h1>Панель администратора (Задолженности)</h1>
-
-<a asp-action="Create" asp-controller="BookUsers">Создать</a>
+<h1>История посещений</h1>
 
 
 <form asp-action="Index" asp-controller="BookUsers" method="get">
@@ -36,15 +34,12 @@
 
     <button type="submit">Применить</button>
 
-    <a asp-action="Index" asp-controller="Admin">Сбросить</a>
+    <a asp-action="Index" asp-controller="Users">Сбросить</a>
 </form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Items[0].UserEmail)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Items[0].BookName)
             </th>
@@ -65,9 +60,6 @@
                 // Т.к. сдача книги просрочена, эту запись надо выделить
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td>
                         <a asp-controller="Books"
                            asp-action="Details"
                            asp-route-id="@item.BookId">
@@ -81,9 +73,9 @@
                         @Html.DisplayFor(modelItem => item.ActualReturnDate)
                     </td>
                     <td>
-                        <a asp-controller="BookUsers"
-                        asp-action="Details"
-                        asp-route-id="@item.Id">
+                        <a asp-controller="Users"
+                           asp-action="Details"
+                           asp-route-id="@item.Id">
                             Details
                         </a>
                     </td>
@@ -93,9 +85,6 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td>
                         <a asp-controller="Books"
                            asp-action="Details"
                            asp-route-id="@item.BookId">
@@ -109,7 +98,7 @@
                         @Html.DisplayFor(modelItem => item.ActualReturnDate)
                     </td>
                     <td>
-                        <a asp-controller="BookUsers"
+                        <a asp-controller="Users"
                            asp-action="Details"
                            asp-route-id="@item.Id">
                             Details

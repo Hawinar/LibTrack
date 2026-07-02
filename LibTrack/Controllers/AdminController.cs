@@ -230,6 +230,7 @@ public class AdminController(
         int id,
         CancellationToken ct = default)
     {
+
         ViewBag.Genres = await _context.Genres
             .Select(g => new SelectListItem
             {
