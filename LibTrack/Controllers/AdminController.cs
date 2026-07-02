@@ -188,7 +188,7 @@ public class AdminController(
         return View(new BookDetailsViewModel());
     }
 
-    [HttpPost()]
+    [HttpPost("admin-catalog/create")]
     public async Task<IActionResult> Create(
         BookDetailsViewModel book,
         CancellationToken ct = default)
