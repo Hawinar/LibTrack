@@ -1,0 +1,115 @@
+﻿@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Аналитика";
+}
+
+<div class="card p-4">
+
+    <h1 class="mb-5">
+        Аналитика библиотеки
+    </h1>
+
+    <div class="row g-5">
+
+        <div class="col-lg-6">
+
+            <div class="card p-4 h-100">
+
+                <h4 class="mb-4">
+                    Возвраты книг
+                </h4>
+
+                <canvas id="returnsChart"></canvas>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card p-4 h-100">
+
+                <h4 class="mb-4">
+                    Книги по жанрам
+                </h4>
+
+                <canvas id="genresChart"></canvas>
+
+            </div>
+
+        </div>
+
+        <div class="col-12">
+
+            <div class="card p-4">
+
+                <h4 class="mb-4">
+                    Топ авторов
+                </h4>
+
+                <canvas id="authorsChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    // =========================
+    // Круговая диаграмма возвратов
+    // =========================
+
+    new Chart(document.getElementById('returnsChart'), {
+    type: 'pie',
+    data: {
+    labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.ReturnStatsLabels)),
+    datasets: [{
+    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.ReturnStatsData))
+    }]
+    }
+    });
+
+    // =========================
+    // Гистограмма жанров
+    // =========================
+
+    new Chart(document.getElementById('genresChart'), {
+    type: 'bar',
+    data: {
+    labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.GenreLabels)),
+    datasets: [{
+    label: 'Количество книг',
+    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.GenreData))
+    }]
+    },
+    options: {
+    responsive: true
+    }
+    });
+
+    // =========================
+    // Гистограмма авторов
+    // =========================
+
+    new Chart(document.getElementById('authorsChart'), {
+    type: 'bar',
+    data: {
+    labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.AuthorLabels)),
+    datasets: [{
+    label: 'Количество книг',
+    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.AuthorData))
+    }]
+    },
+    options: {
+    responsive: true
+    }
+    });
+
+</script>
